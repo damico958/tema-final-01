@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    stages {
+        
+        stage('Build') {
+            steps {
+                sh './gradlew build'
+            }
+        }
+        
+        stage('Artifactory') {
+            steps {
+                rtUpload(
+                    serverId: "tema-final-01-artifactory",
+                    spec: """{
+                        "files": [
+                        {
+                            "pattern": "build/libs/calculator-app.war",
+                            "target": "tema-final-01-calculator"
+                        }
+                        ]
+                    } """ 
+                    
+                    
+                    )
+            }
+        }
+        
+    }
+}
