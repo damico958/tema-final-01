@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Pulling from Docker Hub') {
+        steps {
+            sh 'docker pull felipedamico/tema-final-01:latest'
+          }
+        }
+
+        stage('Running Docker image') {
+        steps {
+            sh 'docker run --name calculator -d --rm -p 8090:8080 felipedamico/tema-final-01:latest'
+          }
+        }
+    }
+}
