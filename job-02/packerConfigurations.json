@@ -13,7 +13,7 @@
       "author": "damico.lipe@gmail.com",
       "changes": [
         "EXPOSE 8080",
-        "CMD [\"apache-tomcat-9.0.55/bin/catalina.sh\", \"run\"]"
+        "CMD [\"apache-tomcat-10.0.12/bin/catalina.sh\", \"run\"]"
       ]
     }
   ],
@@ -33,7 +33,7 @@
     {
       "type": "file",
       "source":  "{{user `tomcat_dir`}}",
-      "destination": "/apache-tomcat-9.0.55/webapps/calculator-app.war"
+      "destination": "/apache-tomcat-10.0.12/webapps/calculator-app.war"
     }
   ],
 
