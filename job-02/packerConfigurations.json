@@ -2,7 +2,7 @@
   "variables": {
     "dockerhub_username": "",
     "dockerhub_password": "",
-    "tomcat_dir": "/var/lib/jenkins/workspace/job-02-infra/job-01/build/libs/calculator-app.war"
+    "tomcat_dir": "/home/ilegra/.jenkins/workspace/job-02-infra/job-01/build/libs/calculator-app.war"
   },
 
   "builders": [
@@ -28,7 +28,7 @@
     },
     {
       "type": "ansible-local",
-      "playbook_file": "var/lib/jenkins/workspace/job-02-infra/job-02/playbook.yml"
+      "playbook_file": "/home/ilegra/.jenkins/workspace/job-02-infra/job-02/playbook.yml"
     },
     {
       "type": "file",
