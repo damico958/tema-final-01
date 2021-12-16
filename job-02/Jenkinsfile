@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Retrieving WAR file from JFrog Artifactory') {
+            steps {
+                rtDownload(
+                    serverId: "tema-final-01-artifactory",
+                    spec: """{
+                        "files": [
+                        {
+                            "pattern": "tema-final-01-calculator/calculator-app.war",
+                            "target": "job-01/build/libs/calculator-app.war"
+                        }
+                        ]
+                    } """
+
+                    )
+            }
+        }
+
+        stage('Building a Docker image through Packer and pushing to Docker Hub') {
+        steps {
+            withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                sh "packer build --var dockerhub_username=$DOCKERHUB_USERNAME --var dockerhub_password=$DOCKERHUB_PASSWORD job-02/packerConfigurations.json"
+            }
+          }
+        }
+    }
+}

@@ -1,0 +1,55 @@
+{
+  "variables": {
+    "dockerhub_username": "",
+    "dockerhub_password": "",
+    "tomcat_dir": "/var/lib/jenkins/workspace/job-02-infra/job-01/build/libs/calculator-app.war"
+  },
+
+  "builders": [
+    {
+      "type": "docker",
+      "image": "ubuntu:20.04",
+      "commit": true,
+      "author": "damico.lipe@gmail.com",
+      "changes": [
+        "EXPOSE 8080",
+        "CMD [\"apache-tomcat-9.0.55/bin/catalina.sh\", \"run\"]"
+      ]
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "apt-get update",
+        "apt-get install ansible -y"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "var/lib/jenkins/workspace/job-02-infra/job-02/playbook.yml"
+    },
+    {
+      "type": "file",
+      "source":  "{{user `tomcat_dir`}}",
+      "destination": "/apache-tomcat-9.0.55/webapps/calculator-app.war"
+    }
+  ],
+
+  "post-processors": [
+    [
+      {
+        "type": "docker-tag",
+        "repository": "felipedamico/tema-final-01",
+        "tags": ["1.0", "latest"]
+      },
+      {
+        "type": "docker-push",
+        "login": true,
+        "login_username": "{{user `dockerhub_username`}}",
+        "login_password": "{{user `dockerhub_password`}}"
+      }
+    ]
+  ]
+}
