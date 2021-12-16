@@ -5,9 +5,9 @@
   become_user: root
 
   tasks:
-    - name: Install correct Java version - OpenJDK 8 Headless
+    - name: Install correct Java version - OpenJDK 11 Headless
       apt:
-        name: openjdk-8-jre-headless
+        name: openjdk-11-jre-headless
         state: present
 
     - name: Download Apache Tomcat
